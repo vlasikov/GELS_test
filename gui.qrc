@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icons/free-animated-icon-line-chart-7211797.png</file>
+    <file>icons/free-icon-graphic-design-674417.png</file>
+    <file>icons/3665437.png</file>
+    <file>icons/3665438.png</file>
+    <file>icons/3665448.png</file>
+    <file>icons/chrome1.ico</file>
+  </qresource>
+</RCC>
