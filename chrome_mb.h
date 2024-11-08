@@ -11,7 +11,11 @@ public:
 
     bool connect(char *IP_addr);
     void disconnect(void);
-    QString readParam(void);
+    int readParam(void);
+
+    uint16_t RHReg[64];       //ReadHoldingRegisters
+    uint16_t WSReg[64];       //Write Single Register
+    uint16_t  IReg[64];       //Input Register
 
 signals:
 

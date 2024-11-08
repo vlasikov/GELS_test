@@ -30,24 +30,19 @@ void chrome_mb::disconnect(void){
 }
 
 // чтение настроек с платы
-QString chrome_mb::readParam(void){
-    QString result;
+int chrome_mb::readParam(void){
     if (connected)  {
-        qDebug()<<"readParam()";
         int rc;
-        uint16_t tab_reg[64];
         modbus_set_slave(ctx, 1);
-        const uint number_readed_registers=2;
-        rc = modbus_read_registers(ctx, 0, number_readed_registers, tab_reg);
-        qDebug()<<tab_reg[0];
-
-        result = QString::number((tab_reg[0])&0xFF) + "." + QString::number((tab_reg[0]>>8)&0xFF) +"." + QString::number((tab_reg[1])&0xFF) + "." + QString::number((tab_reg[1]>>8)&0xFF);
-        qDebug()<< result;
-        qDebug()<< "IP = " <<((tab_reg[0])&0xFF)<<"."<<((tab_reg[0]>>8)&0xFF) <<((tab_reg[1])&0xFF)<<"."<<((tab_reg[1]>>8)&0xFF);
-
-        if (rc == -1) {
-            fprintf(stderr, "%s\n", modbus_strerror(errno));
+        const uint number_readed_registers=32;
+        rc = modbus_read_registers(ctx, 0, number_readed_registers, RHReg);
+        if (-1 == rc) {
+            qDebug()<<"error modbus_read_registers";
         }
+//        if (rc == -1) {
+//            fprintf(stderr, "%s\n", modbus_strerror(errno));
+//        }
+        return 1;
     }
-    return result;
+    return 0;
 }
