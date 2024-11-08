@@ -11,6 +11,7 @@ public:
 
     bool connect(char *IP_addr);
     void disconnect(void);
+    QString readParam(void);
 
 signals:
 

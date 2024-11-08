@@ -85,3 +85,13 @@ void MainWindow::on_ConnectButton_clicked(bool checked)
   }
 }
 
+/*
+ * Чтение настроек с платы
+ */
+void MainWindow::on_pushButton_2_clicked()
+{
+    QString IP;
+    IP = chrome->readParam();
+    ui->dev_IP->setText(IP);
+}
+

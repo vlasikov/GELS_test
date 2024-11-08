@@ -16,12 +16,14 @@ SOURCES += \
     chrome_mb.cpp \
     main.cpp \
     mainwindow.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    settings.cpp
 
 HEADERS += \
     chrome_mb.h \
     mainwindow.h \
-    qcustomplot.h
+    qcustomplot.h \
+    settings.h
 
 FORMS += \
     GUI1.ui
