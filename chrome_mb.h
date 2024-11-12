@@ -12,15 +12,18 @@ public:
     bool connect(char *IP_addr);
     void disconnect(void);
     int readParam(void);
+    int writeParam(void);
 
     //ReadHoldingRegisters
     uint16_t RHRegSettings[32];
     uint16_t RHRegTract1_0_250[125];
     uint16_t RHRegTract1_250_354[52];
-    uint16_t RHRegTract1_0_356[177];
+    uint16_t RHRegTract1_356[177];
+    uint16_t RHRegID[10];
 
     uint16_t WSReg[64];         //Write Single Register
     uint16_t IReg[64];          //Input Register
+    uint16_t Password;
 
 signals:
 

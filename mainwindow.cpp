@@ -118,9 +118,45 @@ void MainWindow::on_pushButton_2_clicked(){
 
         ADC24_gain2 =   QString::number((chrome->RHRegSettings[9]));
         ui->ADC24_gain2->setCurrentIndex(ui->ADC24_gain2->findText(ADC24_gain1));     // 0x01 - 0x80
+
+        ui->ID->setText(QString::number((chrome->RHRegID[0]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[0])&0xFF, 16)+"; " + \
+
+                        QString::number((chrome->RHRegID[1]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[1])&0xFF, 16)+"; " + \
+
+                        QString::number((chrome->RHRegID[2]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[2])&0xFF, 16)+":" +  \
+                        QString::number((chrome->RHRegID[3]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[3])&0xFF, 16)+":" +  \
+                        QString::number((chrome->RHRegID[4]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[4])&0xFF, 16)+":" +  \
+                        QString::number((chrome->RHRegID[5]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[5])&0xFF, 16)+":" +  \
+                        QString::number((chrome->RHRegID[6]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[6])&0xFF, 16)+"; " + \
+                        QString::number((chrome->RHRegID[7]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[7])&0xFF, 16)+"; " + \
+
+                        QString::number((chrome->RHRegID[8]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[8])&0xFF, 16)+":" +  \
+                        QString::number((chrome->RHRegID[9]>>8)&0xFF, 16 )+":" + \
+                        QString::number((chrome->RHRegID[9])&0xFF, 16)        \
+        );
+
+        chrome->Password = (uint16_t)(chrome->RHRegID[2] + chrome->RHRegID[3] + chrome->RHRegID[4] + chrome->RHRegID[5] + chrome->RHRegID[6] + chrome->RHRegID[7]);
+        qDebug() << QString::number(chrome->Password, 16);
+        ui->password->setText(QString::number(chrome->Password, 16));
     }
     else{
         qDebug()<<"chrome->readParam(), ERROR";
+    }
+
+    if (chrome->writeParam()){
+        qDebug()<<"chrome->writeParam(), OK";
+    }
+    else{
+        qDebug()<<"chrome->writeParam(), ERROR";
     }
 }
 
