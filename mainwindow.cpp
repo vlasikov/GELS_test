@@ -89,36 +89,38 @@ void MainWindow::on_pushButton_2_clicked(){
     QString IP_addr_dev, dose_time1, dose_time2, cycle_time, cycle_pause, path_delay, operating_mode, ADC24_gain1, ADC24_gain2;
 
     if (chrome->readParam()){
-        IP_addr_dev =   QString::number((chrome->RHReg[0])&0xFF)+"." + \
-                        QString::number((chrome->RHReg[0]>>8)&0xFF) + "."  + \
-                        QString::number((chrome->RHReg[1])&0xFF) + "." + \
-                        QString::number((chrome->RHReg[1]>>8)&0xFF);
+        IP_addr_dev =   QString::number((chrome->RHRegSettings[0])&0xFF)+"." + \
+                        QString::number((chrome->RHRegSettings[0]>>8)&0xFF) + "."  + \
+                        QString::number((chrome->RHRegSettings[1])&0xFF) + "." + \
+                        QString::number((chrome->RHRegSettings[1]>>8)&0xFF);
         ui->dev_IP->setText(IP_addr_dev);
 
-        dose_time1  =   QString::number((chrome->RHReg[2]));
+        dose_time1  =   QString::number((chrome->RHRegSettings[2]));
         ui->dose_time1->setText(dose_time1);
 
-        dose_time2  =   QString::number((chrome->RHReg[3]));
+        dose_time2  =   QString::number((chrome->RHRegSettings[3]));
         ui->dose_time2->setText(dose_time2);
 
-        cycle_time  =   QString::number((chrome->RHReg[4]));
+        cycle_time  =   QString::number((chrome->RHRegSettings[4]));
         ui->cycle_time->setText(cycle_time);
 
-        cycle_pause =   QString::number((chrome->RHReg[5]));
+        cycle_pause =   QString::number((chrome->RHRegSettings[5]));
         ui->cycle_pause->setText(cycle_pause);
 
-        path_delay  =   QString::number((chrome->RHReg[6]));
+        path_delay  =   QString::number((chrome->RHRegSettings[6]));
         ui->path_delay->setText(path_delay);
 
-        operating_mode  =   QString::number((chrome->RHReg[7]));
+        operating_mode= QString::number((chrome->RHRegSettings[7]));
         ui->operating_mode->setText(operating_mode);
 
-        ADC24_gain1 =   QString::number((chrome->RHReg[8]));
-//        ui->ADC24_gain1->  setText(ADC24_gain1);
+        ADC24_gain1 =   QString::number((chrome->RHRegSettings[8]));
         ui->ADC24_gain1->setCurrentIndex(ui->ADC24_gain1->findText(ADC24_gain1));     // 0x01 - 0x80
 
-        ADC24_gain2 =   QString::number((chrome->RHReg[9]));
-        ui->ADC24_gain2->setCurrentIndex(ui->ADC24_gain2->findText("128"));     // 0x01 - 0x80
+        ADC24_gain2 =   QString::number((chrome->RHRegSettings[9]));
+        ui->ADC24_gain2->setCurrentIndex(ui->ADC24_gain2->findText(ADC24_gain1));     // 0x01 - 0x80
+    }
+    else{
+        qDebug()<<"chrome->readParam(), ERROR";
     }
 }
 
