@@ -50,16 +50,12 @@ int chrome_mb::readParam(void){
             qDebug()<<"error modbus_read_registers";
         }
 
-//        rc = modbus_read_registers(ctx, 0, 5, RHRegSettings);
-//        rc = modbus_read_registers(ctx, 5, 10, &RHRegSettings[5]);
-//        qDebug()<<RHRegSettings;
-
         //  offset 0x0100, Таблица градуировки изм. тракта №1, (8 газов, 10 концентраций), 356 байт = 178 слов
-        rc = modbus_read_registers(ctx, 0x0100, 125, RHRegTract1_356); // (modbas, offset, length, buff)
+        rc = modbus_read_registers(ctx, 0x0100, 125, RHRegTract1_356);                      // func(modbas*, offset, length, buff*)
         if (-1 == rc) {
             qDebug()<<"RHRegTract1_0_249, error modbus_read_registers()";
         }
-        rc = modbus_read_registers(ctx, 0x0100+125, 52, &RHRegTract1_356[52]);               // func(modbas*, offset, length, buff*)
+        rc = modbus_read_registers(ctx, 0x0100+125, 52, &RHRegTract1_356[52]);              // func(modbas*, offset, length, buff*)
         if (-1 == rc) {
             qDebug()<<"RHRegTract1_250_354, error modbus_read_registers()";
         }
@@ -79,11 +75,8 @@ int chrome_mb::writeParam(void){
     if (connected)  {
 //        Значение пароля вычисляется из идентификатора микроконтроллера (сумма 6 регистров без учета переполнения):
 //        uint16_t password = (uint16_t)(reg0 + reg1 + reg2 + reg3 + reg4 + reg5);
-        int rc;
-//        Password = 0xf403;
-//        uint16_t word;
-//        uint32_t word2;
 
+        int rc;
         rc = modbus_write_register(ctx, 0x04FF, Password);
         if (-1 == rc) {
             qDebug()<<"Password, error modbus_write_register()";
@@ -95,14 +88,25 @@ int chrome_mb::writeParam(void){
 //            qDebug()<<"RHRegTract1_356, error modbus_write_registers()";
 //        }
 
-        RHRegTract1_356[0] = 0xabcd;
-        RHRegTract1_356[1] = 0xef00;
+//        float f = 0.25;
+//        uint32_t f_uint32 = uint32_t(f & 0xFFFF);
+//        qDebug()<< f_uint32;
+
+        float f = TableGraduation.Column1.valueConc[0];
+        QByteArray array(reinterpret_cast<const char*>(&f), sizeof(f));
+        qDebug()<<"array "<<array;
+        float* out = reinterpret_cast<float*>(array .data());
+        qDebug()<<"out "<< *out;
+
+        // 1.1
+        RHRegTract1_356[1] = array[2] | (array[3]>>24);
+        RHRegTract1_356[0] = array[0] | (array[1]>>8);
         rc = modbus_write_registers(ctx, 0x0100, 2, RHRegTract1_356);
         if (-1 == rc) {
             qDebug()<<"RHRegTract1_356, error modbus_write_registers()";
         }
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 
 }

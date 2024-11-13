@@ -119,6 +119,9 @@ void MainWindow::on_pushButton_2_clicked(){
         ADC24_gain2 =   QString::number((chrome->RHRegSettings[9]));
         ui->ADC24_gain2->setCurrentIndex(ui->ADC24_gain2->findText(ADC24_gain1));     // 0x01 - 0x80
 
+        //      ---
+
+        //      ---
         ui->ID->setText(QString::number((chrome->RHRegID[0]>>8)&0xFF, 16 )+":" + \
                         QString::number((chrome->RHRegID[0])&0xFF, 16)+"; " + \
 
@@ -144,6 +147,13 @@ void MainWindow::on_pushButton_2_clicked(){
                         QString::number((chrome->RHRegID[9])&0xFF, 16)        \
         );
 
+//        QByteArray array(reinterpret_cast<const char*>(&f), sizeof(f));
+        QByteArray array(reinterpret_cast<const char*>(&chrome->RHRegTract1_356[0]), 4);
+        qDebug()<<array;
+        float* out = reinterpret_cast<float*>(array .data());
+        qDebug()<< *out;
+        ui->concentration->setText(QString::number(*out));
+
         chrome->Password = (uint16_t)(chrome->RHRegID[2] + chrome->RHRegID[3] + chrome->RHRegID[4] + chrome->RHRegID[5] + chrome->RHRegID[6] + chrome->RHRegID[7]);
         qDebug() << QString::number(chrome->Password, 16);
         ui->password->setText(QString::number(chrome->Password, 16));
@@ -151,7 +161,13 @@ void MainWindow::on_pushButton_2_clicked(){
     else{
         qDebug()<<"chrome->readParam(), ERROR";
     }
+}
 
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    chrome->TableGraduation.Column1.valueConc[0] = 0.123; // 0x3dfbe76d
+//    chrome->RHRegTract1_356
     if (chrome->writeParam()){
         qDebug()<<"chrome->writeParam(), OK";
     }
