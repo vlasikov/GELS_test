@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
   // Отрисовываем содержимое полотна
   ui->graph_widget->replot();
 
+  ui->param_frame->setVisible(false);
+  ui->param_frame_4->setVisible(false);
+
 }
 
 MainWindow::~MainWindow()
@@ -155,7 +158,7 @@ void MainWindow::on_pushButton_2_clicked(){
         qDebug()<<"array = "<<array;
         float* out = reinterpret_cast<float*>(array .data());
         qDebug()<<"*out= " <<*out;
-        ui->concentration->setText(QString::number(*out));
+//        ui->concentration->setText(QString::number(*out));
 
         chrome->Password = (uint16_t)(chrome->RHRegID[2] + chrome->RHRegID[3] + chrome->RHRegID[4] + chrome->RHRegID[5] + chrome->RHRegID[6] + chrome->RHRegID[7]);
         qDebug() << QString::number(chrome->Password, 16);
@@ -182,7 +185,22 @@ void MainWindow::on_pushButton_5_clicked()
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
-    qDebug()<<index;
-    ui->param_frame->setVisible(0);
+    switch(index)
+    {
+        case 0:
+            qDebug()<<index;
+            ui->param_frame->setVisible(true);
+            ui->param_frame_4->setVisible(false);
+            break;
+        case 1:
+            qDebug()<<index;
+            ui->param_frame->setVisible(false);
+            ui->param_frame_4->setVisible(true);
+            break;
+
+        default:
+            qDebug()<<"default "<<index;
+            break;
+    }
 }
 
