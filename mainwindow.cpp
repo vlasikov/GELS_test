@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 
   QObject::connect(ui->ClearButton, SIGNAL(toggled(bool)), ui->setup_widget, SLOT(setVisible(bool)));
 
+//  QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setVisible(bool)));
+//  QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
+
   chrome = new chrome_mb;
 
   QVector<double> x1(2) , y1(2);
@@ -149,9 +152,9 @@ void MainWindow::on_pushButton_2_clicked(){
 
 //        QByteArray array(reinterpret_cast<const char*>(&f), sizeof(f));
         QByteArray array(reinterpret_cast<const char*>(&chrome->RHRegTract1_356[0]), 4);
-        qDebug()<<array;
+        qDebug()<<"array = "<<array;
         float* out = reinterpret_cast<float*>(array .data());
-        qDebug()<< *out;
+        qDebug()<<"*out= " <<*out;
         ui->concentration->setText(QString::number(*out));
 
         chrome->Password = (uint16_t)(chrome->RHRegID[2] + chrome->RHRegID[3] + chrome->RHRegID[4] + chrome->RHRegID[5] + chrome->RHRegID[6] + chrome->RHRegID[7]);
@@ -166,13 +169,20 @@ void MainWindow::on_pushButton_2_clicked(){
 
 void MainWindow::on_pushButton_5_clicked()
 {
-    chrome->TableGraduation.Column1.valueConc[0] = 0.123; // 0x3dfbe76d
-//    chrome->RHRegTract1_356
+    chrome->TableGraduation.Column1.valueConc[0] = (float)0.12345; // 0x3dfbe76d
+
     if (chrome->writeParam()){
         qDebug()<<"chrome->writeParam(), OK";
     }
     else{
         qDebug()<<"chrome->writeParam(), ERROR";
     }
+}
+
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+    qDebug()<<index;
+    ui->param_frame->setVisible(0);
 }
 

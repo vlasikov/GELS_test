@@ -82,25 +82,12 @@ int chrome_mb::writeParam(void){
             qDebug()<<"Password, error modbus_write_register()";
         }
 
-//        word = 0xabcd;
-//        rc = modbus_write_register(ctx, 0x0100, word);
-//        if (-1 == rc) {
-//            qDebug()<<"RHRegTract1_356, error modbus_write_registers()";
-//        }
-
-//        float f = 0.25;
-//        uint32_t f_uint32 = uint32_t(f & 0xFFFF);
-//        qDebug()<< f_uint32;
-
         float f = TableGraduation.Column1.valueConc[0];
         QByteArray array(reinterpret_cast<const char*>(&f), sizeof(f));
-        qDebug()<<"array "<<array;
-        float* out = reinterpret_cast<float*>(array .data());
-        qDebug()<<"out "<< *out;
 
-        // 1.1
-        RHRegTract1_356[1] = array[2] | (array[3]>>24);
-        RHRegTract1_356[0] = array[0] | (array[1]>>8);
+        RHRegTract1_356[1] = (array[2]&0xff) | ((array[3]&0xff)<<8);
+        RHRegTract1_356[0] = (array[0]&0xff) | ((array[1]&0xff)<<8);
+
         rc = modbus_write_registers(ctx, 0x0100, 2, RHRegTract1_356);
         if (-1 == rc) {
             qDebug()<<"RHRegTract1_356, error modbus_write_registers()";
