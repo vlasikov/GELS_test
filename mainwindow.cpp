@@ -186,16 +186,27 @@ void MainWindow::on_pushButton_5_clicked()
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     switch(index)
-    {
+    {   // настройка прибора
         case 0:
             qDebug()<<index;
+            ui->tabWidget->setCurrentIndex(0);
             ui->param_frame->setVisible(true);
             ui->param_frame_4->setVisible(false);
             break;
         case 1:
             qDebug()<<index;
+            ui->tabWidget->setCurrentIndex(1);
             ui->param_frame->setVisible(false);
             ui->param_frame_4->setVisible(true);
+            break;
+        case 2:
+            ui->tabWidget->setCurrentIndex(2);
+            break;
+        case 3:
+            ui->tabWidget->setCurrentIndex(3);
+            break;
+        case 4:
+            ui->tabWidget->setCurrentIndex(4);
             break;
 
         default:
