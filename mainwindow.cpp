@@ -153,15 +153,8 @@ void MainWindow::on_pushButton_2_clicked(){
                         QString::number((chrome->RHRegID[9])&0xFF, 16)        \
         );
 
-//        QByteArray array(reinterpret_cast<const char*>(&f), sizeof(f));
-        QByteArray array(reinterpret_cast<const char*>(&chrome->RHRegTract1_356[0]), 4);
-        qDebug()<<"array = "<<array;
-        float* out = reinterpret_cast<float*>(array .data());
-        qDebug()<<"*out= " <<*out;
-//        ui->concentration->setText(QString::number(*out));
-
         chrome->Password = (uint16_t)(chrome->RHRegID[2] + chrome->RHRegID[3] + chrome->RHRegID[4] + chrome->RHRegID[5] + chrome->RHRegID[6] + chrome->RHRegID[7]);
-        qDebug() << QString::number(chrome->Password, 16);
+        qDebug() <<"password = " << QString::number(chrome->Password, 16);
         ui->password->setText(QString::number(chrome->Password, 16));
     }
     else{
@@ -182,7 +175,10 @@ void MainWindow::on_pushButton_5_clicked()
     }
 }
 
-
+/*
+ * выбор номера таблицы с настройками
+ *
+ */
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     switch(index)
@@ -213,5 +209,11 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
             qDebug()<<"default "<<index;
             break;
     }
+}
+
+
+void MainWindow::on_Graph_Button_clicked()
+{
+
 }
 

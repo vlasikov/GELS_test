@@ -27,6 +27,8 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
+    void on_Graph_Button_clicked();
+
 private:
     Ui::MainWindow *ui;
 
